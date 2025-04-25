@@ -111,6 +111,7 @@ The Matrix Profile Approach
  <template #1> - The Matrix Profile is a data structure that allows us to find motifs in time series data efficiently. </template>
  <template #2> - It employs the **Cyclic Convolution Theorem** to compute in $O(n\log n)$ time the distances </template>
  <template #3> - It stores in $O(n)$ space the distance of each subsequence with its nearest neighbor </template>
+ <template #4> -  </template>
 </v-switch>
 
 <script setup>
