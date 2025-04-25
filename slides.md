@@ -145,6 +145,17 @@ transition: fade-out
 # How do we find motifs approximately?
 The EMD Approach
 
+A meta time series is obtained by applying **Principal Component Analysis** to the multidimentional time series. 
+
+Motifs are then discovered with the **Minimum Description Length** principle.
+
+Pros:
+- The dimensionality of the time series does not have an impact on the discovery
+
+Cons:
+-  Motifs may be masked by useless dimensions or noise
+- Additional step to retrieve the dimensions that span the motif
+
 ---
 transition: slide-left
 ---
@@ -152,11 +163,30 @@ transition: slide-left
 # How do we find motifs approximately?
 The Random Projection Approach
 
+We randomly pick **combinations** of the dimensions of the time series
+
+Pros:
+- Noise or irrelevant dimensions do not impact the discovery phase
+- We know the dimensions that span the motif
+
+Cons:
+- Very complex way to find motifs
+- In practice the quality of the results is bad
+
 ---
 transition: fade-out
 ---
 
 # A Hash Approach
+The general framework
+
+Ideally we want to use an hash function that can 
+tell us what are the colliding subsequences 
+and what are the dimensions where they collide.
+
+Then we want to compute the distances of these collisions and we want to stop when the result is good for our user.
+
+
 
 ---
 transition: fade-out
@@ -168,7 +198,7 @@ We will look at the different steps of the algorithm:
 
 - Creating an hash index
 - Finding the closest pairs
-- Stopping once we are sure
+- Stopping once we are sure the result is _good enough_
 
 </div>
 
@@ -222,8 +252,18 @@ transition: fade-out
 ---
 
 # A Running Example
-
+given time series $T$, window $w$, number of motifs to find $k$ and motif dimensionality $d$
 
 ---
-layout: center
+transition: fade-out
 ---
+
+# Optimizations
+Some technical details
+
+---
+transition: fade-out
+---
+
+# Finding motifs of different dimensionalities
+Overcoming the need of $d$ in input
