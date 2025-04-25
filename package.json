@@ -1,0 +1,17 @@
+{
+  "name": "leitmotifs",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "slidev build",
+    "dev": "slidev --open",
+    "export": "slidev export"
+  },
+  "dependencies": {
+    "@slidev/cli": "^51.5.0",
+    "@slidev/theme-default": "latest",
+    "@slidev/theme-seriph": "latest",
+    "lucide-vue-next": "^0.503.0",
+    "vue": "^3.5.13"
+  }
+}
