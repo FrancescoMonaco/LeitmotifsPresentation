@@ -81,7 +81,7 @@ transition: fade-out
 ---
 
 # What is a Subsequence?
-A **subsequence** is a portion of a time series, commonly referred to as a **window** of length $w$.
+A **subsequence** $T_a,w$ is a portion of a time series starting at point $a$ and of length $w$, $w$ isncommonly referred to as the <span v-mark.red="1">**window** </span> size.
 For example, a window of a day of temperatures is a subsequence of the time series of the month.
 
 <Subsequence />
@@ -91,7 +91,38 @@ transition: fade-out
 ---
 
 # What is a Motif?
-A **motif** is a pair of subsequences that are similar to each other.
+A **motif** is a pair of subsequences $T_a$, $T_b$ that are <span v-mark.red="1">the most similar </span> to each other.
+
+<MotifPlot
+  :time-series="[
+    [0,1,2,3,2,1,0,4,5,4,3,2,8,4,5,6,7,4,3,3,4,5,4,3]
+  ]"
+  :dimension="1"
+  :motifs="[
+    { start: 1, end: 5, color: 'red' },
+    { start: 19, end: 25, color: 'red' }]"
+  :width="700"
+  :height="250"
+/>
+
+---
+transition: fade-out
+---
+
+# What do we mean by similar?
+The z-normalized Euclidean distance
+
+By similar we mean that the <span v-mark.circle.red="1"> shapes </span> of the subsequences are similar.
+
+A common way to measure this is the **z-normalized Euclidean distance**:
+$$
+    d(T_a, T_b) = \sqrt{\sum_{i=0}^{w-1} \left(\frac{T_a[i] - \bar{T_a}}{\sigma_{T_a}} - \frac{T_b[i] - \bar{T_b}}{\sigma_{T_b}}\right)^2}
+$$
+
+where $\bar{T_a}$ and $\sigma_{T_a}$ are the mean and standard deviation of the subsequence $T_a$.
+
+
+Other distance measures can be used, such as the **Dynamic Time Warping** (DTW) distance.
 
 ---
 transition: fade-out
@@ -100,12 +131,36 @@ transition: fade-out
 # The Multidimensional Case
 All of the above definitions can be extended to the multidimensional case.
 
+A **multidimensional time series** is a collection of $D$ vectors of length $n$ where each vector represents a different dimension of the time series.
+
+For example, a time series of temperature and humidity recorded over a month is a multidimensional time series.
+
+<MultiTimeSeries />
+
+---
+transition: fade-out
+---
+
+# A Multidimensional Motif
+
+---
+transition: fade-out
+---
+
+# Problem Definition
+Top $k$ motif discovery
+
+Given a multidimensional time series $T$ of length $n$ and dimensionality $D$, a window size $w$, a number of motifs $k$, and motif dimensionality $d$, the problem is to find the top $k$ motifs of dimensionality $d$ in the time series.
+
+
+- We have to find the subset of dimensions that span the motif
+
 ---
 transition: fade-out
 ---
 
 # How do we find motifs exactly?
-The Matrix Profile Approach
+The **Matrix Profile** Approach
 
 <v-switch>
  <template #1> - The Matrix Profile is a data structure that allows us to find motifs in time series data efficiently. </template>
@@ -143,7 +198,7 @@ transition: fade-out
 ---
 
 # How do we find motifs approximately?
-The EMD Approach
+The **EMD** Approach
 
 A meta time series is obtained by applying **Principal Component Analysis** to the multidimentional time series. 
 
@@ -161,7 +216,7 @@ transition: slide-left
 ---
 
 # How do we find motifs approximately?
-The Random Projection Approach
+The **Random Selection** Approach
 
 We randomly pick **combinations** of the dimensions of the time series
 
@@ -207,7 +262,7 @@ transition: fade-out
 ---
 
 # Hash Index
-The Random Projection approach
+Random Projections
 
 We partition the space using random vectors and hash the data points into bins.
 The hash function is defined as:
@@ -215,6 +270,8 @@ $$
     h(x) = \left\lfloor \frac{a\cdot x+b}{r} \right\rfloor
 $$
 where $a$ is a random vector, $b$ is a random number, and $r$ is the bin size.
+
+<RandomProjection />
 ---
 transition: fade-out
 ---
