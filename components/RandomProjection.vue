@@ -129,12 +129,12 @@ function updateVisualization() {
   tickElements.selectAll('line')
     .data(ticks)
     .join('line')
-    .attr('x1', d => xScale(d.x - d.vy * 0.02))
-    .attr('y1', d => yScale(d.y + d.vx * 0.02))
-    .attr('x2', d => xScale(d.x + d.vy * 0.02))
-    .attr('y2', d => yScale(d.y - d.vx * 0.02))
+    .attr('x1', d => xScale(d.x - d.vy * 0.12))
+    .attr('y1', d => yScale(d.y + d.vx * 0.12))
+    .attr('x2', d => xScale(d.x + d.vy * 0.12))
+    .attr('y2', d => yScale(d.y - d.vx * 0.12))
     .attr('stroke', 'yellow')
-    .attr('stroke-width', 1)
+    .attr('stroke-width', 5)
 
   // Define arrowheads
   svg.select('defs')?.remove()

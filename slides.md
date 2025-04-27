@@ -42,7 +42,7 @@ Scalable Motif Mining
 in Multidimensional Time Series
 
 ---
-transition: fade-out
+transition: fade
 ---
 
 # Basics
@@ -65,7 +65,7 @@ And look at the following concepts:
 
 </v-click>
 ---
-transition: fade-out
+transition: fade
 ---
 
 # What is a Time Series?
@@ -77,7 +77,7 @@ For example, daily temperatures recorded over a month form a time series.
 <TimeSeriesAnimation />
 
 ---
-transition: fade-out
+transition: fade
 ---
 
 # What is a Subsequence?
@@ -87,7 +87,7 @@ For example, a window of a day of temperatures is a subsequence of the time seri
 <Subsequence />
 
 ---
-transition: fade-out
+transition: fade
 ---
 
 # What is a Motif?
@@ -106,7 +106,7 @@ A **motif** is a pair of subsequences $T_a$, $T_b$ that are <span v-mark.red="1"
 />
 
 ---
-transition: fade-out
+transition: fade
 ---
 
 # What do we mean by similar?
@@ -125,7 +125,7 @@ where $\bar{T_a}$ and $\sigma_{T_a}$ are the mean and standard deviation of the 
 Other distance measures can be used, such as the **Dynamic Time Warping** (DTW) distance.
 
 ---
-transition: fade-out
+transition: fade
 ---
 
 # The Multidimensional Case
@@ -138,13 +138,13 @@ For example, a time series of temperature and humidity recorded over a month is 
 <MultiTimeSeries />
 
 ---
-transition: fade-out
+transition: fade
 ---
 
 # A Multidimensional Motif
 
 ---
-transition: fade-out
+transition: fade
 ---
 
 # Problem Definition
@@ -156,7 +156,7 @@ Given a multidimensional time series $T$ of length $n$ and dimensionality $D$, a
 - We have to find the subset of dimensions that span the motif
 
 ---
-transition: fade-out
+transition: fade
 ---
 
 # How do we find motifs exactly?
@@ -194,7 +194,7 @@ const dataMultiD = Array.from({ length: 100 }, (_, i) => [
 
 
 ---
-transition: fade-out
+transition: fade
 ---
 
 # How do we find motifs approximately?
@@ -229,7 +229,7 @@ Cons:
 - In practice the quality of the results is bad
 
 ---
-transition: fade-out
+transition: fade
 ---
 
 # A Hash Approach
@@ -242,23 +242,27 @@ and what are the dimensions where they collide.
 Then we want to compute the distances of these collisions and we want to stop when the result is good for our user.
 
 
-
 ---
-transition: fade-out
+transition: fade
+layout: center
 ---
  
 # Details
-<div v-click>
+
+
+---
+transition: fade
+---
+ 
+# Details
 We will look at the different steps of the algorithm:
 
 - Creating an hash index
 - Finding the closest pairs
 - Stopping once we are sure the result is _good enough_
 
-</div>
-
 ---
-transition: fade-out
+transition: fade
 ---
 
 # Hash Index
@@ -272,14 +276,44 @@ $$
 where $a$ is a random vector, $b$ is a random number, and $r$ is the bin size.
 
 <RandomProjection />
+
 ---
-transition: fade-out
+transition: fade
+---
+
+# Hash Index
+Random Projections
+
+We partition the space using random vectors and hash the data points into bins.
+The hash function is defined as:
+$$
+    h(x) = \left\lfloor \frac{a\cdot x+b}{r} \right\rfloor
+$$
+where $a$ is a random vector, $b$ is a random number, and $r$ is the bin size.
+
+<br>
+
+In particular, we hash each dimension of the subsequences independently.
+---
+transition: fade
 ---
 
 # Closest Pairs
+Weighting the collisions
 
+Once we have built the hash index, we can scan the bins and look for colliding subsequences.
+In particular we track the weight of the collisions, which is defined as:
+$$
+    w(T_a, T_b) = \sum_{i=0}^{d-1} \left(h(T_a[i]) \wedge h(T_b[i])\right)
+$$
+
+
+where $h(T_a[i])$ is the hash value of the $i$-th dimension of the subsequence $T_a$ and $\wedge$ is the bitwise AND operator.
+<br>
+
+We then compute the distance of the pairs of subsequences whose weight is $>d$.
 ---
-transition: fade-out
+transition: fade
 ---
 
 # A Stopping Criterion
@@ -288,38 +322,83 @@ $$
 \text{Let } p(d) \text{ be the probability of sharing the same hash value at distance } d.
 $$
 
+---
+transition: fade
+---
+
+# A Stopping Criterion
+
 $$
-\text{Now, let } i \text{ be the number of concatenations and } j \text{ be the number of hash repetitions.} \\
+\text{Let } p(d) \text{ be the probability of sharing the same hash value at distance } d.
+$$
+<br>
+$$
+\text{Now, let } i \text{ be the number of the current concatenation and } j \text{ be the number of the hash repetition.} \\
 \text{Then, the probability of sharing the same hash value is:} \\
   \left(1-p^i\right)^j 
 $$
 
+---
+transition: fade
+---
+
+# A Stopping Criterion
 
 $$
+\text{Let } p(d) \text{ be the probability of sharing the same hash value at distance } d.
+$$
+<br>
+$$
+\text{Now, let } i \text{ be the number of the current concatenation and } j \text{ be the number of the hash repetition.} \\
+\text{Then, the probability of sharing the same hash value is:} \\
+  \left(1-p^i\right)^j 
+$$
+<br>
+
+$$
+\text{Using the approach of PUFFINN*, we can define the probability of sharing the same hash value as:} \\
       \left\{
         \begin{aligned}
         &\left(1-p^i\right)^j \quad &\textrm{ if }~~ i=K \\
         &\left(1-p^i\right)^j \cdot \left(1-p^{i+1}\right)^{L-j} \quad&\textrm{ otherwise}
         \end{aligned}
       \right.
+      \\
+\text{with } K \text{ and } L \text{ being the maximum number of concatenations and repetitions, respectively.}
 $$
 
+###### *([Aumüller et al., 2020](https://arxiv.org/abs/1906.12211))
 ---
-transition: fade-out
+transition: fade
 ---
 
 # A Running Example
 given time series $T$, window $w$, number of motifs to find $k$ and motif dimensionality $d$
 
 ---
-transition: fade-out
+transition: fade
+---
+
+# Experimental Results
+The datasets
+
+---
+transition: fade
+---
+
+# Experimental Results
+Time to find the top motif
+
+---
+transition: fade
+layout: center
 ---
 
 # Optimizations
 Some technical details
 
 ---
-transition: fade-out
+transition: fade
 ---
 
 # Finding motifs of different dimensionalities
