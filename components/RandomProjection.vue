@@ -4,11 +4,11 @@ import * as d3 from 'd3'
 
 const numPoints = 200
 const numProjections = ref(2)
-const binWidth = ref(0.5)
+const binWidth = ref(1)
 
-const width = 600
-const height = 200
-const margin = { top: 20, right: 20, bottom: 20, left: 20 }
+const width = 400
+const height = 400
+const margin = { top: 10, right: 10, bottom: 10, left: 10 }
 
 const points = ref(generatePoints())
 const projections = ref(generateProjections(numProjections.value))
@@ -129,12 +129,12 @@ function updateVisualization() {
   tickElements.selectAll('line')
     .data(ticks)
     .join('line')
-    .attr('x1', d => xScale(d.x - d.vy * 0.12))
-    .attr('y1', d => yScale(d.y + d.vx * 0.12))
-    .attr('x2', d => xScale(d.x + d.vy * 0.12))
-    .attr('y2', d => yScale(d.y - d.vx * 0.12))
+    .attr('x1', d => xScale(d.x - d.vy * 1.12))
+    .attr('y1', d => yScale(d.y + d.vx * 1.12))
+    .attr('x2', d => xScale(d.x + d.vy * 1.12))
+    .attr('y2', d => yScale(d.y - d.vx * 1.12))
     .attr('stroke', 'yellow')
-    .attr('stroke-width', 5)
+    .attr('stroke-width', 2)
 
   // Define arrowheads
   svg.select('defs')?.remove()
@@ -162,11 +162,11 @@ watch(numProjections, (newVal) => {
   <div class="flex flex-col items-center space-y-4">
     <div class="flex space-x-4">
       <div>
-        <label>Number of projections: {{ numProjections }}</label>
+        <label>Number of projections K: {{ numProjections }}</label>
         <input type="range" min="1" max="10" v-model="numProjections" />
       </div>
       <div>
-        <label>Bin width: {{ binWidth }}</label>
+        <label>Bin width r: {{ binWidth }}</label>
         <input type="range" min="0.1" max="1" step="0.05" v-model="binWidth" />
       </div>
       <button @click="regeneratePoints" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">

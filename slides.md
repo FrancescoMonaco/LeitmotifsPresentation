@@ -162,12 +162,34 @@ transition: fade
 # How do we find motifs exactly?
 The **Matrix Profile** Approach
 
-<v-switch>
- <template #1> - The Matrix Profile is a data structure that allows us to find motifs in time series data efficiently. </template>
- <template #2> - It employs the **Cyclic Convolution Theorem** to compute in $O(n\log n)$ time the distances </template>
- <template #3> - It stores in $O(n)$ space the distance of each subsequence with its nearest neighbor </template>
- <template #4> -  </template>
-</v-switch>
+ - The Matrix Profile is a data structure that allows us to find motifs in time series data efficiently.
+---
+transition: fade
+---
+
+# How do we find motifs exactly?
+The **Matrix Profile** Approach
+
+ - The Matrix Profile is a data structure that allows us to find motifs in time series data efficiently.
+ - It employs the **Cyclic Convolution Theorem** to compute in $O(n\log n)$ time the distances
+
+---
+transition: fade
+---
+
+# How do we find motifs exactly?
+The **Matrix Profile** Approach
+
+ - The Matrix Profile is a data structure that allows us to find motifs in time series data efficiently.
+ - It employs the **Cyclic Convolution Theorem** to compute in $O(n\log n)$ time the distances
+ - It stores in $O(n)$ space the distance of each subsequence with its nearest neighbor
+
+---
+transition: fade
+---
+
+# How do we find motifs exactly?
+The **Matrix Profile** Approach
 
 <script setup>
 import MotifProfileAnimation from './components/MotifProfileAnimation.vue'
@@ -212,13 +234,52 @@ Cons:
 - Additional step to retrieve the dimensions that span the motif
 
 ---
+transition: fade
+---
+
+# How do we find motifs approximately?
+The **EMD** Approach
+
+A meta time series is obtained by applying **Principal Component Analysis** to the multidimentional time series. 
+
+Motifs are then discovered with the <span v-mark.circle.green="0"> Minimum Description Length </span> principle.
+
+![](/images/mdl1.png)
+
+---
+transition: fade
+---
+
+# How do we find motifs approximately?
+The **EMD** Approach
+
+A meta time series is obtained by applying **Principal Component Analysis** to the multidimentional time series. 
+
+Motifs are then discovered with the <span v-mark.circle.green="0"> Minimum Description Length </span> principle.
+
+![](/images/mdl2.png)
+
+---
+transition: fade
+---
+
+# How do we find motifs approximately?
+The **EMD** Approach
+
+A meta time series is obtained by applying **Principal Component Analysis** to the multidimentional time series. 
+
+Motifs are then discovered with the <span v-mark.circle.green="0"> Minimum Description Length </span> principle.
+
+![](/images/mdl3.png)
+
+---
 transition: slide-left
 ---
 
 # How do we find motifs approximately?
 The **Random Selection** Approach
 
-We randomly pick **combinations** of the dimensions of the time series
+We randomly pick **combinations** of the dimensions of the time series, symbolize them and fill a collision matrix each time we find a collision.
 
 Pros:
 - Noise or irrelevant dimensions do not impact the discovery phase
@@ -230,16 +291,17 @@ Cons:
 
 ---
 transition: fade
+layout: two-cols
 ---
 
 # A Hash Approach
 The general framework
 
-Ideally we want to use an hash function that can 
+- Ideally we want to use an hash function that can 
 tell us what are the colliding subsequences 
 and what are the dimensions where they collide.
 
-Then we want to compute the distances of these collisions and we want to stop when the result is good for our user.
+- Then we want to compute the distances of these collisions and we want to stop when the result is good for our user.
 
 
 ---
@@ -257,12 +319,13 @@ transition: fade
 # Details
 We will look at the different steps of the algorithm:
 
-- Creating an hash index
-- Finding the closest pairs
-- Stopping once we are sure the result is _good enough_
+- <span v-mark.green="1"> Creating an hash index </span> of the time series
+- <span v-mark.green="2"> Finding the closest pairs </span> in the hash index
+- <span v-mark.green="3"> Stopping once we are sure the result is _good enough_ </span>
 
 ---
 transition: fade
+layout: two-cols
 ---
 
 # Hash Index
@@ -274,11 +337,14 @@ $$
     h(x) = \left\lfloor \frac{a\cdot x+b}{r} \right\rfloor
 $$
 where $a$ is a random vector, $b$ is a random number, and $r$ is the bin size.
+
+::right::
 
 <RandomProjection />
 
 ---
 transition: fade
+layout: two-cols
 ---
 
 # Hash Index
@@ -291,9 +357,40 @@ $$
 $$
 where $a$ is a random vector, $b$ is a random number, and $r$ is the bin size.
 
+::right::  
 <br>
 
-In particular, we hash each dimension of the subsequences independently.
+<br>
+
+<br>
+
+ - In particular, we hash each dimension of the subsequences independently.
+
+---
+transition: fade
+layout: two-cols
+---
+
+# Hash Index
+Random Projections
+
+We partition the space using random vectors and hash the data points into bins.
+The hash function is defined as:
+$$
+    h(x) = \left\lfloor \frac{a\cdot x+b}{r} \right\rfloor
+$$
+where $a$ is a random vector, $b$ is a random number, and $r$ is the bin size.
+
+::right::  
+<br>
+
+<br>
+
+<br>
+
+ - In particular, we hash each dimension of the subsequences independently.
+ - We end up with a codebook of $d$ hash values for each subsequence.
+
 ---
 transition: fade
 ---
@@ -302,16 +399,37 @@ transition: fade
 Weighting the collisions
 
 Once we have built the hash index, we can scan the bins and look for colliding subsequences.
-In particular we track the weight of the collisions, which is defined as:
+
+In particular we track the <span v-mark.green="1"> weight </span> of the collisions, which is defined as:
 $$
     w(T_a, T_b) = \sum_{i=0}^{d-1} \left(h(T_a[i]) \wedge h(T_b[i])\right)
 $$
 
 
-where $h(T_a[i])$ is the hash value of the $i$-th dimension of the subsequence $T_a$ and $\wedge$ is the bitwise AND operator.
+where $h(T_a[i])$ is the hash value of the $i$-th dimension of the subsequence $T_a$ and $\wedge$ is the AND operator.
 <br>
 
-We then compute the distance of the pairs of subsequences whose weight is $>d$.
+
+
+---
+transition: fade
+---
+
+# Closest Pairs
+Weighting the collisions
+
+Once we have built the hash index, we can scan the bins and look for colliding subsequences.
+
+In particular we track the <span v-mark.green="0"> weight </span> of the collisions, which is defined as:
+$$
+    w(T_a, T_b) = \sum_{i=0}^{d-1} \left(h(T_a[i]) \wedge h(T_b[i])\right)
+$$
+
+
+where $h(T_a[i])$ is the hash value of the $i$-th dimension of the subsequence $T_a$ and $\wedge$ is the AND operator.
+<br>
+
+We then compute the distance of the pairs of <span v-mark.green="0"> subsequences whose weight is $>d$ </span>, the requested motif dimensionality.
 ---
 transition: fade
 ---

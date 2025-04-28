@@ -12,7 +12,7 @@ onMounted(() => {
   const nDimensions = 2
 
   const svg = d3
-    .select('#d3-timeseries')
+    .select('#d3-timeseriesmulti')
     .append('svg')
     .attr('width', width)
     .attr('height', height)
@@ -71,5 +71,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="d3-timeseries" class="flex justify-center mt-4"></div>
+  <div id="d3-timeseriesmulti" class="flex justify-center mt-4"></div>
 </template>
