@@ -6,6 +6,8 @@ theme: default
 background: https://cover.sli.dev
 # some information about your slides (markdown enabled)
 title: LEIT-motifs
+titleTemplate: '%s'
+author: 'Francesco Pio Monaco'
 info: |
   Scalable Motif Mining 
   in Multidimensional Time Series
@@ -40,6 +42,12 @@ mdc: true
 
 Scalable Motif Mining
 in Multidimensional Time Series
+
+<div class="absolute bottom-10">
+  <span class="font-700">
+    Francesco Pio Monaco, May 2025
+  </span>
+</div>
 
 ---
 transition: fade
@@ -142,6 +150,21 @@ transition: fade
 ---
 
 # A Multidimensional Motif
+Notice how one of the dimensions is just noise
+
+<MotifPlot
+  :time-series="[
+    [0,1,2,3,2,1,0,4,5,4,3,2,8,4,5,6,7,4,3,3,4,5,4,3],
+    [0.1,0.5,0.5,0.5,0.2,0.3, 0.1, 0.5, 0.3, 0.2, 0.13, 0.45, 0.23, 0.11, 0.12, 0.43, 0.34, 0.1,0.04, 0.23, 0.12, 0.32, 0.5,0.5,0.5,0.2],
+    [10, 23, 12, 13, 12, 11, 10, 14, 15, 14, 13, 12, 18, 14, 15, 16, 17, 14, 13,  15, 10, 11, 12, 11]
+  ]"
+  :dimension="3"
+  :motifs="[
+    { start: 1, end: 5, color: 'red' },
+    { start: 19, end: 25, color: 'red' }]"
+  :width="700"
+  :height="400"
+/>
 
 ---
 transition: fade
@@ -224,24 +247,6 @@ The **EMD** Approach
 
 A meta time series is obtained by applying **Principal Component Analysis** to the multidimentional time series. 
 
-Motifs are then discovered with the **Minimum Description Length** principle.
-
-Pros:
-- The dimensionality of the time series does not have an impact on the discovery
-
-Cons:
--  Motifs may be masked by useless dimensions or noise
-- Additional step to retrieve the dimensions that span the motif
-
----
-transition: fade
----
-
-# How do we find motifs approximately?
-The **EMD** Approach
-
-A meta time series is obtained by applying **Principal Component Analysis** to the multidimentional time series. 
-
 Motifs are then discovered with the <span v-mark.circle.green="0"> Minimum Description Length </span> principle.
 
 ![](/images/mdl1.png)
@@ -271,6 +276,35 @@ A meta time series is obtained by applying **Principal Component Analysis** to t
 Motifs are then discovered with the <span v-mark.circle.green="0"> Minimum Description Length </span> principle.
 
 ![](/images/mdl3.png)
+
+---
+transition: fade
+---
+
+# How do we find motifs approximately?
+The **EMD** Approach
+
+A meta time series is obtained by applying **Principal Component Analysis** to the multidimentional time series. 
+
+Motifs are then discovered with the <span v-mark.circle.green="0"> Minimum Description Length </span> principle.
+
+Pros:
+- The dimensionality of the time series does not have an impact on the discovery
+
+Cons:
+-  Motifs may be masked by useless dimensions or noise
+- Additional step to retrieve the dimensions that span the motif
+
+---
+transition: fade
+---
+
+# How do we find motifs approximately?
+The **Random Selection** Approach
+
+We randomly pick **combinations** of the dimensions of the time series, symbolize them and fill a collision matrix each time we find a collision.
+
+
 
 ---
 transition: slide-left
@@ -435,9 +469,26 @@ transition: fade
 ---
 
 # A Stopping Criterion
+using LSH properties
 
+- Let $p(d)$ be the probability of sharing the same hash value at distance $d$.
+<br>
+
+---
+transition: fade
+---
+
+# A Stopping Criterion
+using LSH properties
+
+- Let $p(d)$ be the probability of sharing the same hash value at distance $d$.
+<br>
+
+- Now, let $i$ be the number of the current concatenation and $j$ be the number of the hash repetition.
+<br>
+Then, the probability of sharing the same hash value is:
 $$
-\text{Let } p(d) \text{ be the probability of sharing the same hash value at distance } d.
+  \left(1-p^i\right)^j
 $$
 
 ---
@@ -445,45 +496,29 @@ transition: fade
 ---
 
 # A Stopping Criterion
+using LSH properties
 
-$$
-\text{Let } p(d) \text{ be the probability of sharing the same hash value at distance } d.
-$$
-<br>
-$$
-\text{Now, let } i \text{ be the number of the current concatenation and } j \text{ be the number of the hash repetition.} \\
-\text{Then, the probability of sharing the same hash value is:} \\
-  \left(1-p^i\right)^j 
-$$
-
----
-transition: fade
----
-
-# A Stopping Criterion
-
-$$
-\text{Let } p(d) \text{ be the probability of sharing the same hash value at distance } d.
-$$
-<br>
-$$
-\text{Now, let } i \text{ be the number of the current concatenation and } j \text{ be the number of the hash repetition.} \\
-\text{Then, the probability of sharing the same hash value is:} \\
-  \left(1-p^i\right)^j 
-$$
+- Let $p(d)$ be the probability of sharing the same hash value at distance $d$.
 <br>
 
+- Now, let $i$ be the number of the current concatenation and $j$ be the number of the hash repetition.
+<br>
+Then, the probability of sharing the same hash value is:
 $$
-\text{Using the approach of PUFFINN*, we can define the probability of sharing the same hash value as:} \\
-      \left\{
-        \begin{aligned}
-        &\left(1-p^i\right)^j \quad &\textrm{ if }~~ i=K \\
-        &\left(1-p^i\right)^j \cdot \left(1-p^{i+1}\right)^{L-j} \quad&\textrm{ otherwise}
-        \end{aligned}
-      \right.
-      \\
-\text{with } K \text{ and } L \text{ being the maximum number of concatenations and repetitions, respectively.}
+  \left(1-p^i\right)^j
 $$
+
+- Using the approach of PUFFINN*, we can define the probability of sharing the same hash value as:
+  $$
+        \left\{
+          \begin{aligned}
+          &\left(1-p^i\right)^j \quad &\textrm{ if }~~ i=K \\
+          &\left(1-p^i\right)^j \cdot \left(1-p^{i+1}\right)^{L-j} \quad&\textrm{ otherwise}
+          \end{aligned}
+        \right.
+  $$
+  with $K$ the number of hash repetitions and $L$ the number of concatenations, respectively.
+
 
 ###### *([Aumüller et al., 2020](https://arxiv.org/abs/1906.12211))
 ---
@@ -507,6 +542,93 @@ transition: fade
 # Experimental Results
 Time to find the top motif
 
+<table class="w-full text-xs border-collapse border border-gray-300">
+  <thead>
+    <tr>
+      <th class="border px-1 py-0.5">dataset</th>
+      <th class="border px-1 py-0.5" colspan="2">LEIT-motifs</th>
+      <th class="border px-1 py-0.5">MSTUMP</th>
+      <th class="border px-1 py-0.5">EMD</th>
+      <th class="border px-1 py-0.5">RP</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th class="border px-1 py-0.5">Index build</th>
+      <th class="border px-1 py-0.5">Total</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="border px-1 py-0.5">potentials</td>
+      <td class="border px-1 py-0.5">0.11</td>
+      <td class="border px-1 py-0.5 bg-green-100 text-black">0.51</td>
+      <td class="border px-1 py-0.5">3.65</td>
+      <td class="border px-1 py-0.5">4.80</td>
+      <td class="border px-1 py-0.5">3.20</td>
+    </tr>
+    <tr>
+      <td class="border px-1 py-0.5">evaporator</td>
+      <td class="border px-1 py-0.5">0.16</td>
+      <td class="border px-1 py-0.5 bg-green-100 text-black">0.55</td>
+      <td class="border px-1 py-0.5">4.45</td>
+      <td class="border px-1 py-0.5">12.95</td>
+      <td class="border px-1 py-0.5">6.78</td>
+    </tr>
+    <tr>
+      <td class="border px-1 py-0.5">RUTH</td>
+      <td class="border px-1 py-0.5">2.91</td>
+      <td class="border px-1 py-0.5 bg-green-100 text-black">8.10</td>
+      <td class="border px-1 py-0.5">84.04</td>
+      <td class="border px-1 py-0.5">1.5h</td>
+      <td class="border px-1 py-0.5">2.3h</td>
+    </tr>
+    <tr>
+      <td class="border px-1 py-0.5">weather</td>
+      <td class="border px-1 py-0.5">15.04</td>
+      <td class="border px-1 py-0.5 bg-green-100 text-black">33.37</td>
+      <td class="border px-1 py-0.5">1035.73</td>
+      <td class="border px-1 py-0.5">-</td>
+      <td class="border px-1 py-0.5">1.2h</td>
+    </tr>
+    <tr>
+      <td class="border px-1 py-0.5">whales</td>
+      <td class="border px-1 py-0.5">60.67</td>
+      <td class="border px-1 py-0.5 bg-green-100 text-black">2.2 h</td>
+      <td class="border px-1 py-0.5">(2.7 days)</td>
+      <td class="border px-1 py-0.5">-</td>
+      <td class="border px-1 py-0.5">-</td>
+    </tr>
+    <tr>
+      <td class="border px-1 py-0.5">quake</td>
+      <td class="border px-1 py-0.5">175.3</td>
+      <td class="border px-1 py-0.5 bg-green-100 text-black">3.6 h</td>
+      <td class="border px-1 py-0.5">(7.2 days)</td>
+      <td class="border px-1 py-0.5">-</td>
+      <td class="border px-1 py-0.5">-</td>
+    </tr>
+    <tr>
+      <td class="border px-1 py-0.5">el_load</td>
+      <td class="border px-1 py-0.5">180.2</td>
+      <td class="border px-1 py-0.5 bg-green-100 text-black">2.8 h</td>
+      <td class="border px-1 py-0.5">(8.4 days)</td>
+      <td class="border px-1 py-0.5">-</td>
+      <td class="border px-1 py-0.5">-</td>
+    </tr>
+    <tr>
+      <td class="border px-1 py-0.5">LTMM</td>
+      <td class="border px-1 py-0.5">240.6</td>
+      <td class="border px-1 py-0.5 bg-green-100 text-black">15.6 h</td>
+      <td class="border px-1 py-0.5">(11.8 days)</td>
+      <td class="border px-1 py-0.5">-</td>
+      <td class="border px-1 py-0.5">-</td>
+    </tr>
+  </tbody>
+</table>
+
+
 ---
 transition: fade
 layout: center
@@ -521,3 +643,45 @@ transition: fade
 
 # Finding motifs of different dimensionalities
 Overcoming the need of $d$ in input
+
+---
+transition: fade
+---
+
+# Complexity Analysis
+How many distances we compute?
+
+On a $D$-dimensional time series $T$ of length $n$, with $k\geq1$, $d\in [1,D]$, $\delta\in (0,1)$ we compute
+$$
+  O\left(
+    n^{1 + 1/c} \log\frac{1}{\delta} + Lk
+  \right)
+$$
+distances, where $c$ is the <span v-mark.orange="1"> contrast </span> of the time series and $L$ the hash repetitions.
+
+---
+transition: fade
+---
+
+# Complexity Analysis
+How many distances we compute?
+
+On a $D$-dimensional time series $T$ of length $n$, with $k\geq1$, $d\in [1,D]$, $\delta\in (0,1)$ we compute
+$$
+  O\left(
+    n^{1 + 1/c} \log\frac{1}{\delta} + Lk
+  \right)
+$$
+distances, where $c$ is the <span v-mark.orange="0"> contrast </span> of the time series and $L$ the hash repetitions.
+
+Intuition:
+ -  If a motif is very different from the rest of the time series, then the hash index will easily isolate it, we have an <span v-mark.green="1">high contrast </span>.
+ - If the time series is very noisy and there are several similar patterns, then we have a <span v-mark.red="2">low contrast </span>.
+ - $c\geq 1$ and $c=1$ if all subsequences are the same.
+
+---
+transition: fade
+layout: center
+---
+
+# <span class="leit-title">ThanKs foR youR AttentioN</span>
