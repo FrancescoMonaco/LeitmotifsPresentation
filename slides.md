@@ -214,6 +214,18 @@ transition: fade
 # How do we find motifs exactly?
 The **Matrix Profile** Approach
 
+ - The Matrix Profile is a data structure that allows us to find motifs in time series data efficiently.
+ - It employs the **Cyclic Convolution Theorem** to compute in $O(n\log n)$ time the distances
+ - It stores in $O(n)$ space the distance of each subsequence with its nearest neighbor
+ - We can use it to find motifs of any dimensionality, anomalies, discords and many other patterns in time series data.
+
+---
+transition: fade
+---
+
+# How do we find motifs exactly?
+The **Matrix Profile** Approach
+
 <script setup>
 import MotifProfileAnimation from './components/MotifProfileAnimation.vue'
 
@@ -463,7 +475,7 @@ $$
 where $h(T_a[i])$ is the hash value of the $i$-th dimension of the subsequence $T_a$ and $\wedge$ is the AND operator.
 <br>
 
-We then compute the distance of the pairs of <span v-mark.green="0"> subsequences whose weight is $>d$ </span>, the requested motif dimensionality.
+We then compute the distance of the pairs of <span v-mark.green="0"> subsequences whose weight is $>d$ </span>, the requested motif dimensionality, and track our top-$k$ motifs in a priority queue.
 ---
 transition: fade
 ---
@@ -642,7 +654,35 @@ transition: fade
 ---
 
 # Finding motifs of different dimensionalities
-Overcoming the need of $d$ in input
+Can we also find motifs of different dimensionalities like the Matrix Profile?
+
+- Yes, we can use our hash index to find motifs of any dimensionality
+
+
+---
+transition: fade
+---
+
+# Finding motifs of different dimensionalities
+Can we also find motifs of different dimensionalities like the Matrix Profile?
+
+- Yes, we can use our hash index to find motifs of any dimensionality
+- What happens to our collision weight?
+
+  We start by comparing pairs whose weight $w\geq 2$, and track our top-$k$ motifs in a set of $D$ priority queues, once the motif of dimensionality $d=2$ is confirmed we compare only the pairs whose $w\geq 3$, and so on up to $D$.
+
+---
+transition: fade
+layout: two-cols
+---
+
+# Finding motifs of different dimensionalities
+Can we also find motifs of different dimensionalities like the Matrix Profile?
+::right::
+
+<div style="text-align: right;">
+  <img src="/images/multisub_small-1.png" style="width:400px;" />
+</div>
 
 ---
 transition: fade
