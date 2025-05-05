@@ -120,7 +120,7 @@ transition: fade
 # What do we mean by similar?
 The z-normalized Euclidean distance
 
-By similar we mean that the <span v-mark.circle.red="1"> shapes </span> of the subsequences are similar.
+By similar we mean that the <span v-mark.circle.red="1"> shapes </span> of the subsequences resemble each other.
 
 A common way to measure this is the **z-normalized Euclidean distance**:
 $$
@@ -154,8 +154,8 @@ Notice how one of the dimensions is just noise
 
 <MotifPlot
   :time-series="[
-    [0,1,2,3,2,1,0,4,5,4,3,2,8,4,5,6,7,4,3,3,4,5,4,3],
-    [0.1,0.5,0.5,0.5,0.2,0.3, 0.1, 0.5, 0.3, 0.2, 0.13, 0.45, 0.23, 0.11, 0.12, 0.43, 0.34, 0.1,0.04, 0.23, 0.12, 0.32, 0.5,0.5,0.5,0.2],
+    [0,1,2,3,2,1,0,4,5,4,3,2,6,4,5,6,7,4,3,3,4,5,4,3],
+    [7.1,7.5,7.5,7.5,7.2,7.3, 7.1, 7.5, 7.3, 7.2, 7.13, 7.45, 7.23, 7.11, 7.12, 7.43, 7.34, 7.1,7.04, 7.23, 7.12, 7.32, 7.5,7.5,7.5,7.2],
     [10, 23, 12, 13, 12, 11, 10, 14, 15, 14, 13, 12, 18, 14, 15, 16, 17, 14, 13,  15, 10, 11, 12, 11]
   ]"
   :dimension="3"
@@ -194,6 +194,9 @@ transition: fade
 The **Matrix Profile** Approach
 
  - The Matrix Profile is a data structure that allows us to find motifs in time series data efficiently.
+
+ <br>
+
  - It employs the **Cyclic Convolution Theorem** to compute in $O(n\log n)$ time the distances
 
 ---
@@ -204,7 +207,13 @@ transition: fade
 The **Matrix Profile** Approach
 
  - The Matrix Profile is a data structure that allows us to find motifs in time series data efficiently.
+  
+ <br>
+
  - It employs the **Cyclic Convolution Theorem** to compute in $O(n\log n)$ time the distances
+  
+ <br>
+
  - It stores in $O(n)$ space the distance of each subsequence with its nearest neighbor
 
 ---
@@ -215,16 +224,25 @@ transition: fade
 The **Matrix Profile** Approach
 
  - The Matrix Profile is a data structure that allows us to find motifs in time series data efficiently.
+  
+ <br>
+
  - It employs the **Cyclic Convolution Theorem** to compute in $O(n\log n)$ time the distances
+  
+ <br>
+
  - It stores in $O(n)$ space the distance of each subsequence with its nearest neighbor
+  
+ <br>
+
  - We can use it to find motifs of any dimensionality, anomalies, discords and many other patterns in time series data.
 
 ---
 transition: fade
 ---
 
-# How do we find motifs exactly?
-The **Matrix Profile** Approach
+# The **Matrix Profile** Approach
+A unidimensional visualization
 
 <script setup>
 import MotifProfileAnimation from './components/MotifProfileAnimation.vue'
@@ -248,6 +266,42 @@ const dataMultiD = Array.from({ length: 100 }, (_, i) => [
 </script>
 
 <MotifProfileAnimation :data="data1D" :dims="1" :subseqLength="20" :speed="20" />
+
+---
+transition: fade
+---
+
+# The **Matrix Profile** Approach
+A multidimensional example
+
+![](/images/mp1.png)
+
+---
+transition: fade
+---
+
+# The **Matrix Profile** Approach
+A multidimensional example
+
+![](/images/mp2.png)
+
+---
+transition: fade
+---
+
+# The **Matrix Profile** Approach
+A multidimensional example
+
+![](/images/mp3.png)
+
+---
+transition: fade
+---
+
+# The **Matrix Profile** Approach
+A multidimensional example
+
+![](/images/mp4.png)
 
 
 ---
@@ -343,9 +397,13 @@ layout: two-cols
 # A Hash Approach
 The general framework
 
+<br>
+
 - Ideally we want to use an hash function that can 
 tell us what are the colliding subsequences 
 and what are the dimensions where they collide.
+
+<br>
 
 - Then we want to compute the distances of these collisions and we want to stop when the result is good for our user.
 
@@ -365,8 +423,16 @@ transition: fade
 # Details
 We will look at the different steps of the algorithm:
 
+<br>
+
 - <span v-mark.green="1"> Creating an hash index </span> of the time series
+
+<br>
+
 - <span v-mark.green="2"> Finding the closest pairs </span> in the hash index
+
+<br>
+
 - <span v-mark.green="3"> Stopping once we are sure the result is _good enough_ </span>
 
 ---
@@ -448,11 +514,11 @@ Once we have built the hash index, we can scan the bins and look for colliding s
 
 In particular we track the <span v-mark.green="1"> weight </span> of the collisions, which is defined as:
 $$
-    w(T_a, T_b) = \sum_{i=0}^{d-1} \left(h(T_a[i]) \wedge h(T_b[i])\right)
+    w\left(T_a, T_b\right) = \sum_{i=0}^{d-1} \left(h\left(T_a[i]\right) == h\left(T_b[i]\right)\right)
 $$
 
 
-where $h(T_a[i])$ is the hash value of the $i$-th dimension of the subsequence $T_a$ and $\wedge$ is the AND operator.
+where $h(T_a[i])$ is the hash value of the $i$-th dimension of the subsequence $T_a$ and $==$ is a binary operator.
 <br>
 
 
@@ -468,11 +534,11 @@ Once we have built the hash index, we can scan the bins and look for colliding s
 
 In particular we track the <span v-mark.green="0"> weight </span> of the collisions, which is defined as:
 $$
-    w(T_a, T_b) = \sum_{i=0}^{d-1} \left(h(T_a[i]) \wedge h(T_b[i])\right)
+    w\left(T_a, T_b\right) = \sum_{i=0}^{d-1} \left(h\left(T_a[i]\right) == h\left(T_b[i]\right)\right)
 $$
 
 
-where $h(T_a[i])$ is the hash value of the $i$-th dimension of the subsequence $T_a$ and $\wedge$ is the AND operator.
+where $h(T_a[i])$ is the hash value of the $i$-th dimension of the subsequence $T_a$ and $==$ is a binary operator.
 <br>
 
 We then compute the distance of the pairs of <span v-mark.green="0"> subsequences whose weight is $>d$ </span>, the requested motif dimensionality, and track our top-$k$ motifs in a priority queue.
@@ -483,7 +549,7 @@ transition: fade
 # A Stopping Criterion
 using LSH properties
 
-- Let $p(d)$ be the probability of sharing the same hash value at distance $d$.
+- Let $p(dist)$ be the probability of sharing the same hash value at distance $dist$, from now we assume $dist$ is implicit.
 <br>
 
 ---
@@ -493,7 +559,7 @@ transition: fade
 # A Stopping Criterion
 using LSH properties
 
-- Let $p(d)$ be the probability of sharing the same hash value at distance $d$.
+- Let $p(dist)$ be the probability of sharing the same hash value at distance $dist$, from now we assume $dist$ is implicit.
 <br>
 
 - Now, let $i$ be the number of the current concatenation and $j$ be the number of the hash repetition.
@@ -510,7 +576,7 @@ transition: fade
 # A Stopping Criterion
 using LSH properties
 
-- Let $p(d)$ be the probability of sharing the same hash value at distance $d$.
+- Let $p(dist)$ be the probability of sharing the same hash value at distance $dist$, from now we assume $dist$ is implicit.
 <br>
 
 - Now, let $i$ be the number of the current concatenation and $j$ be the number of the hash repetition.
@@ -547,12 +613,80 @@ transition: fade
 # Experimental Results
 The datasets
 
+<table class="w-full text-xs border-collapse border border-gray-300">
+  <thead>
+        <th class="border px-1 py-0.5">dataset</th>
+        <th class="border px-1 py-0.5">n (length)</th>
+        <th class="border px-1 py-0.5">D (dimensionality)</th>
+        <th class="border px-1 py-0.5">w (window)</th>
+        <th class="border px-1 py-0.5">d (motif dimensionality)</th>
+  </thead>
+    <tbody>
+    <tr>
+      <td class="border px-1 py-0.5">potentials</td>
+      <td class="border px-1 py-0.5">2 500</td>
+      <td class="border px-1 py-0.5">8</td>
+      <td class="border px-1 py-0.5">50</td>
+      <td class="border px-1 py-0.5">8</td>
+    </tr>
+    <tr>
+      <td class="border px-1 py-0.5">evaporator</td>
+      <td class="border px-1 py-0.5">7 000</td>
+      <td class="border px-1 py-0.5">5</td>
+      <td class="border px-1 py-0.5">75</td>
+      <td class="border px-1 py-0.5">2</td>
+    </tr>
+    <tr>
+      <td class="border px-1 py-0.5">RUTH</td>
+      <td class="border px-1 py-0.5">14 859</td>
+      <td class="border px-1 py-0.5">32</td>
+      <td class="border px-1 py-0.5">500</td>
+      <td class="border px-1 py-0.5">8</td>
+    </tr>    
+    <tr>
+      <td class="border px-1 py-0.5">weather</td>
+      <td class="border px-1 py-0.5">100 057</td>
+      <td class="border px-1 py-0.5">8</td>
+      <td class="border px-1 py-0.5">5000</td>
+      <td class="border px-1 py-0.5">2</td>
+    </tr>    
+    <tr>
+      <td class="border px-1 py-0.5">whales</td>
+      <td class="border px-1 py-0.5">450 001</td>
+      <td class="border px-1 py-0.5">32</td>
+      <td class="border px-1 py-0.5">300</td>
+      <td class="border px-1 py-0.5">6</td>
+    </tr>    
+    <tr>
+      <td class="border px-1 py-0.5">quake</td>
+      <td class="border px-1 py-0.5">6 440 998</td>
+      <td class="border px-1 py-0.5">32</td>
+      <td class="border px-1 py-0.5">100</td>
+      <td class="border px-1 py-0.5">4</td>
+    </tr>    
+    <tr>
+      <td class="border px-1 py-0.5">el_load</td>
+      <td class="border px-1 py-0.5">6 960 008</td>
+      <td class="border px-1 py-0.5">10</td>
+      <td class="border px-1 py-0.5">1000</td>
+      <td class="border px-1 py-0.5">5</td>
+    </tr>    
+    <tr>
+      <td class="border px-1 py-0.5">LTMM</td>
+      <td class="border px-1 py-0.5">25 132 289</td>
+      <td class="border px-1 py-0.5">6</td>
+      <td class="border px-1 py-0.5">200</td>
+      <td class="border px-1 py-0.5">3</td>
+    </tr>
+    </tbody>
+</table>
+
 ---
 transition: fade
 ---
 
 # Experimental Results
-Time to find the top motif
+Time to find the top motif in seconds
 
 <table class="w-full text-xs border-collapse border border-gray-300">
   <thead>
@@ -717,11 +851,11 @@ distances, where $c$ is the <span v-mark.orange="0"> contrast </span> of the tim
 Intuition:
  -  If a motif is very different from the rest of the time series, then the hash index will easily isolate it, we have an <span v-mark.green="1">high contrast </span>.
  - If the time series is very noisy and there are several similar patterns, then we have a <span v-mark.red="2">low contrast </span>.
- - $c\geq 1$ and $c=1$ if all subsequences are the same.
+ - $c\geq 1$, if $c=1$ then all the subsequences are equal.
 
 ---
 transition: fade
 layout: center
 ---
 
-# <span class="leit-title">ThanKs foR youR AttentioN</span>
+# <span class="leit-title">ThanKs foR <br> youR AttentioN</span>

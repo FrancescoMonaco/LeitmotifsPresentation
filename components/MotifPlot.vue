@@ -76,7 +76,7 @@ function draw() {
   props.motifs.forEach((motif, motifIdx) => {
     props.timeSeries.forEach((series, dimIdx) => {
       const highlighted = series.map((val, i) =>
-        (i >= motif.start && i <= motif.end) ? val : null
+        (i >= motif.start && i <= motif.end && dimIdx != 1) ? val : null
       )
 
       svg.append('path')
