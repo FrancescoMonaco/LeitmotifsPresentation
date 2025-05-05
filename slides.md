@@ -3,7 +3,7 @@
 theme: default
 # random image from a curated Unsplash collection by Anthony
 # like them? see https://unsplash.com/collections/94734566/slidev
-background: https://cover.sli.dev
+#background: https://cover.sli.dev
 # some information about your slides (markdown enabled)
 title: LEIT-motifs
 titleTemplate: '%s'
@@ -48,6 +48,8 @@ in Multidimensional Time Series
     Francesco Pio Monaco, May 2025
   </span>
 </div>
+
+<TSBackground />
 
 ---
 transition: fade
@@ -859,3 +861,5 @@ layout: center
 ---
 
 # <span class="leit-title">ThanKs foR <br> youR AttentioN</span>
+
+<TSBackground />
