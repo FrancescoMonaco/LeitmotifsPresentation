@@ -91,7 +91,7 @@ transition: fade
 ---
 
 # What is a Subsequence?
-A **subsequence** $T_a,w$ is a portion of a time series starting at point $a$ and of length $w$, $w$ isncommonly referred to as the <span v-mark.red="1">**window** </span> size.
+A **subsequence** $T_{a,w}$ is a portion of a time series starting at point $a$ and of length $w$, $w$ is commonly referred to as the <span v-mark.red="1">**window** </span> size.
 For example, a window of a day of temperatures is a subsequence of the time series of the month.
 
 <Subsequence />
@@ -178,7 +178,7 @@ Top $k$ motif discovery
 Given a multidimensional time series $T$ of length $n$ and dimensionality $D$, a window size $w$, a number of motifs $k$, and motif dimensionality $d$, the problem is to find the top $k$ motifs of dimensionality $d$ in the time series.
 
 
-- We have to find the subset of dimensions that span the motif
+- We have to find the <span v-mark.blue = "1">subset of dimensions</span> that spans the motif.
 
 ---
 transition: fade
@@ -443,7 +443,7 @@ layout: two-cols
 ---
 
 # Hash Index
-Random Projections
+Discretized Random Projections
 
 We partition the space using random vectors and hash the data points into bins.
 The hash function is defined as:
