@@ -478,32 +478,9 @@ where $a$ is a random vector, $b$ is a random number, and $r$ is the bin size.
 
 <br>
 
- - In particular, we hash each dimension of the subsequences independently.
+ - In particular, we hash each dimension of the subsequences <span v-mark.blue = "1">independently</span>.
 
----
-transition: fade
-layout: two-cols
----
-
-# Hash Index
-Random Projections
-
-We partition the space using random vectors and hash the data points into bins.
-The hash function is defined as:
-$$
-    h(x) = \left\lfloor \frac{a\cdot x+b}{r} \right\rfloor
-$$
-where $a$ is a random vector, $b$ is a random number, and $r$ is the bin size.
-
-::right::  
-<br>
-
-<br>
-
-<br>
-
- - In particular, we hash each dimension of the subsequences independently.
- - We end up with a codebook of $d$ hash values for each subsequence.
+ - We end up with a <span v-mark.blue = "2">codebook of $d$ hash values</span> for each subsequence.
 
 ---
 transition: fade
@@ -606,7 +583,9 @@ transition: fade
 ---
 
 # A Running Example
-given time series $T$, window $w$, number of motifs to find $k$ and motif dimensionality $d$
+given time series $T$, window $w=10$, number of motifs to find $k=3$ and motif dimensionality $d=2$
+
+<LeitMotifs />
 
 ---
 transition: fade
