@@ -543,7 +543,7 @@ using LSH properties
 
 - Now, let $i$ be the number of the current concatenation and $j$ be the number of the hash repetition.
 <br>
-Then, the probability of sharing the same hash value is:
+Then, the probability of not having seen this collision up to now is:
 $$
   \left(1-p^i\right)^j
 $$
@@ -560,12 +560,12 @@ using LSH properties
 
 - Now, let $i$ be the number of the current concatenation and $j$ be the number of the hash repetition.
 <br>
-Then, the probability of not having seen a collision up to now is:
+Then, the probability of not having seen this collision up to now is:
 $$
   \left(1-p^i\right)^j
 $$
 
-- Using the approach of PUFFINN*, we can define the probability of missing something better as:
+- We can define the probability of having missed a pair at a smaller distance* as:
   $$
         \left\{
           \begin{aligned}
@@ -586,6 +586,21 @@ transition: fade
 given time series $T$, window $w=10$, number of motifs to find $k=3$ and motif dimensionality $d=2$
 
 <LeitMotifs />
+
+---
+transition: fade
+---
+
+# Big Mistake, Huge
+Trivial Matches
+
+<br>
+
+- Overlapping subsequences are referred to as a <span v-mark.green = "1">trivial match</span>, they are more likely to have a small distance given that they differ by a small number of points.
+
+<br>
+
+-  We have to actively avoid them by checking for each pair of subsequences $T_a, T_b$ if their indices are such that $|a-b|>w$.
 
 ---
 transition: fade
