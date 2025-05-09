@@ -560,12 +560,12 @@ using LSH properties
 
 - Now, let $i$ be the number of the current concatenation and $j$ be the number of the hash repetition.
 <br>
-Then, the probability of sharing the same hash value is:
+Then, the probability of not having seen a collision up to now is:
 $$
   \left(1-p^i\right)^j
 $$
 
-- Using the approach of PUFFINN*, we can define the probability of sharing the same hash value as:
+- Using the approach of PUFFINN*, we can define the probability of missing something better as:
   $$
         \left\{
           \begin{aligned}
