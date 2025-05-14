@@ -431,11 +431,11 @@ We will look at the different steps of the algorithm:
 
 <br>
 
-- <span v-mark.green="2"> Finding the closest pairs </span> in the hash index
+-  Finding the closest pairs in the hash index
 
 <br>
 
-- <span v-mark.green="3"> Stopping once we are sure the result is _good enough_ </span>
+-  Stopping once we are sure the result is _good enough_ 
 
 ---
 transition: fade
@@ -485,6 +485,25 @@ where $a$ is a random vector, $b$ is a random number, and $r$ is the bin size.
 ---
 transition: fade
 ---
+ 
+# Details
+We will look at the different steps of the algorithm:
+
+<br>
+
+-  Creating an hash index  of the time series
+
+<br>
+
+- <span v-mark.green="1"> Finding the closest pairs in the hash index</span>
+
+<br>
+
+-  Stopping once we are sure the result is _good enough_ 
+
+---
+transition: fade
+---
 
 # Closest Pairs
 Weighting the collisions
@@ -521,6 +540,26 @@ where $h(T_a[i])$ is the hash value of the $i$-th dimension of the subsequence $
 <br>
 
 We then compute the distance of the pairs of <span v-mark.green="0"> subsequences whose weight is $>d$ </span>, the requested motif dimensionality, and track our top-$k$ motifs in a priority queue.
+
+---
+transition: fade
+---
+ 
+# Details
+We will look at the different steps of the algorithm:
+
+<br>
+
+-  Creating an hash index of the time series
+
+<br>
+
+-  Finding the closest pairs in the hash index
+
+<br>
+
+-  <span v-mark.green="1"> Stopping once we are sure the result is _good enough_  </span>
+
 ---
 transition: fade
 ---
