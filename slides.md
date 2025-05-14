@@ -462,7 +462,7 @@ layout: two-cols
 ---
 
 # Hash Index
-Random Projections
+Discretized Random Projections
 
 We partition the space using random vectors and hash the data points into bins.
 The hash function is defined as:

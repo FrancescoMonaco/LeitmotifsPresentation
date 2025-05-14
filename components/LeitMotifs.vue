@@ -71,10 +71,10 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed, watch } from 'vue';
 
-const svgWidth = 500;
-const svgHeight = 100;
+const svgWidth = 600;
+const svgHeight = 130;
 const numWaveforms = 3;
-const waveformLength = 100; // Number of data points
+const waveformLength = 150; // Number of data points
 const pointSpacing = 5; // Pixels between points
 const totalWaveformWidth = waveformLength * pointSpacing;
 const windowSizePoints = 10; // Window size in data points
@@ -121,7 +121,7 @@ function generateWaveformPath(data, index) {
 function generateInitialWaveforms() {
   const colors = ['#FF7F50', '#00FF7F', '#afaaff'];
   waveforms.value = Array.from({ length: numWaveforms }, (_, i) => {
-    const data = Array.from({ length: waveformLength }, () => (Math.random() - 0.5) * 2 + (i)); // Random data
+    const data = Array.from({ length: waveformLength }, () => (Math.random() - 0.5) * 2 + (-0.5*i)); // Random data
     return {
       id: `w${i}`,
       color: colors[i % colors.length],
