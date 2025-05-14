@@ -74,7 +74,7 @@ import { ref, onMounted, onUnmounted, computed, watch } from 'vue';
 const svgWidth = 600;
 const svgHeight = 130;
 const numWaveforms = 3;
-const waveformLength = 150; // Number of data points
+const waveformLength = 120; // Number of data points
 const pointSpacing = 5; // Pixels between points
 const totalWaveformWidth = waveformLength * pointSpacing;
 const windowSizePoints = 10; // Window size in data points
