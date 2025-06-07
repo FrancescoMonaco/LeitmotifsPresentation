@@ -639,7 +639,7 @@ Trivial Matches
 
 <br>
 
--  We have to actively avoid them by checking for each pair of subsequences $T_a, T_b$ if their indices are such that $|a-b|>w$.
+-  We have to actively avoid them by checking for each pair of subsequences $T_a, T_b$ that their indices respect the condition $|a-b|>w$.
 
 ---
 transition: fade
