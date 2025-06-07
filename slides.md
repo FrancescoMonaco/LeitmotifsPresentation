@@ -45,7 +45,7 @@ in Multidimensional Time Series
 
 <div class="absolute bottom-10">
   <span class="font-700">
-    Francesco Pio Monaco, May 2025
+    Francesco Pio Monaco, June 2025
   </span>
 </div>
 
