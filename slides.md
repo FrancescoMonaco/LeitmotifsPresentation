@@ -229,7 +229,7 @@ The **Matrix Profile** Approach
   
  <br>
 
- - It employs the **Cyclic Convolution Theorem** to compute in $O(n\log n)$ time the distances
+ - It employs the **Cyclic Convolution Theorem** to compute in $O(n\log n)$ time the distances between one subsequence and all the others
   
  <br>
 
@@ -372,7 +372,38 @@ The **Random Selection** Approach
 
 We randomly pick **combinations** of the dimensions of the time series, symbolize them and fill a collision matrix each time we find a collision.
 
+---
+transition: fade
+---
 
+# How do we find motifs approximately?
+The **Random Selection** Approach
+
+We randomly pick **combinations** of the dimensions of the time series, symbolize them and fill a collision matrix each time we find a collision.
+
+<img src="/images/Sel1.png" style="height:75%;width:auto"> 
+
+---
+transition: fade
+---
+
+# How do we find motifs approximately?
+The **Random Selection** Approach
+
+We randomly pick **combinations** of the dimensions of the time series, symbolize them and fill a collision matrix each time we find a collision.
+
+<img src="/images/Sel2.png" style="height:75%;width:auto">
+
+---
+transition: fade
+---
+
+# How do we find motifs approximately?
+The **Random Selection** Approach
+
+We randomly pick **combinations** of the dimensions of the time series, symbolize them and fill a collision matrix each time we find a collision.
+
+<img src="/images/Sel3.png" style="height:75%;width:auto">
 
 ---
 transition: slide-left
@@ -650,11 +681,11 @@ The datasets
 
 <table class="w-full text-xs border-collapse border border-gray-300">
   <thead>
-        <th class="border px-1 py-0.5">dataset</th>
-        <th class="border px-1 py-0.5">n (length)</th>
-        <th class="border px-1 py-0.5">D (dimensionality)</th>
-        <th class="border px-1 py-0.5">w (window)</th>
-        <th class="border px-1 py-0.5">d (motif dimensionality)</th>
+        <th class="border px-1 py-0.5"><b>dataset</b></th>
+        <th class="border px-1 py-0.5"><b>n (length)</b></th>
+        <th class="border px-1 py-0.5"><b>D (dimensionality)</b></th>
+        <th class="border px-1 py-0.5"><b>w (window)</b></th>
+        <th class="border px-1 py-0.5"><b>d (motif dimensionality)</b></th>
   </thead>
     <tbody>
     <tr>
@@ -726,11 +757,11 @@ Time to find the top motif in seconds
 <table class="w-full text-xs border-collapse border border-gray-300">
   <thead>
     <tr>
-      <th class="border px-1 py-0.5">dataset</th>
-      <th class="border px-1 py-0.5" colspan="2">LEIT-motifs</th>
-      <th class="border px-1 py-0.5">MSTUMP</th>
-      <th class="border px-1 py-0.5">EMD</th>
-      <th class="border px-1 py-0.5">RP</th>
+      <th class="border px-1 py-0.5"><b>dataset</b></th>
+      <th class="border px-1 py-0.5" colspan="2"><b>LEIT-motifs</b></th>
+      <th class="border px-1 py-0.5"><b>MSTUMP</b></th>
+      <th class="border px-1 py-0.5"><b>EMD</b></th>
+      <th class="border px-1 py-0.5"><b>RP</b></th>
     </tr>
     <tr>
       <th></th>
