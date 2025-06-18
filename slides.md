@@ -873,16 +873,40 @@ Can we also find motifs of different dimensionalities like the Matrix Profile?
 
 ---
 transition: fade
-layout: two-cols
 ---
 
 # Finding motifs of different dimensionalities
 Can we also find motifs of different dimensionalities like the Matrix Profile?
-::right::
 
-<div style="text-align: right;">
-  <img src="/images/multisub_small-1.png" style="width:400px;" />
-</div>
+<img src="/images/multisub_small-1.png" style="width:400px; margin:auto;">
+
+---
+transition: fade
+---
+
+# Impact of the failure probability
+How does the algorithm behave with respect to the failure probability $\delta$?
+
+<img src="/images/time_recall_r (1)-1.png" style="width:600px; margin:auto;">
+
+
+---
+transition: fade
+---
+
+# Experiments on scalability
+How does the algorithm behave with respect to the time series length $n$?
+
+<img src="/images/scalability (1)-1.png" style="width:600px; margin:auto;">
+
+---
+transition: fade
+---
+
+# Testing our heuristic to tune $r$ in the hash index
+How does the algorithm behave with respect to the hash bin size $r$?
+
+<img src="/images/r_plot (1)-1.png" style="width:600px; margin:auto;">
 
 ---
 transition: fade
